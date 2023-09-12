@@ -1,4 +1,4 @@
-package de.ait.task_02.modells;
+package de.ait.task_02.models;
 
 import java.util.Objects;
 

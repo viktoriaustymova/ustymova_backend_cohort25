@@ -1,6 +1,7 @@
 package de.ait.task_02.services.impl;
 
-import de.ait.task_02.modells.Event;
+import de.ait.task_02.dto.RegisterDto;
+import de.ait.task_02.models.Event;
 import de.ait.task_02.repositories.EventsRepository;
 import de.ait.task_02.services.EventsService;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,9 @@ public class EventsServiceImpl implements EventsService {
     }
 
     @Override
-    public void addEvent(String name, String desc){
-        Event event = new Event(name,desc);
+    public void addEvent(RegisterDto registerDto){
+        Event event = new Event(registerDto.getInputEventName(),
+                registerDto.getInputEventDesc());
         eventsRepository.save(event);
     }
 

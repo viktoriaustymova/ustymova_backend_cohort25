@@ -1,8 +1,8 @@
 package de.ait.task_02.controllers;
 
-import de.ait.task_02.modells.Event;
+import de.ait.task_02.dto.RegisterDto;
+import de.ait.task_02.models.Event;
 import de.ait.task_02.services.EventsService;
-import org.springframework.beans.factory.config.CustomEditorConfigurer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +21,8 @@ public class EventsController {
     }
 
     @PostMapping("/signUp")
-    public String addEvent(@RequestParam("eventName") String name,
-                           @RequestParam("eventDesc") String desc) {
-        eventsService.addEvent(name, desc);
+    public String addEvent(RegisterDto registerDto) {
+        eventsService.addEvent(registerDto);
         return "redirect:/success_signUp.html";
     }
 

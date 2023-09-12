@@ -1,6 +1,6 @@
 package de.ait.task_02.repositories.impl;
 
-import de.ait.task_02.modells.Event;
+import de.ait.task_02.models.Event;
 import de.ait.task_02.repositories.EventsRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;

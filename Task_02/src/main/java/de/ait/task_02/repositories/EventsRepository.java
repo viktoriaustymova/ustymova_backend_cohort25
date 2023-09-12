@@ -1,7 +1,6 @@
 package de.ait.task_02.repositories;
 
-import de.ait.task_02.modells.Event;
-import de.ait.task_02.repositories.CrudRepository;
+import de.ait.task_02.models.Event;
 
 public interface EventsRepository extends CrudRepository<Event> {
 
