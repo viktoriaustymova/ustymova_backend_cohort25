@@ -62,6 +62,25 @@ public class EventsRepositoryFileImpl implements EventsRepository {
 
     @Override
     public void update(Event model) {
+        List<Event> events = findAll();
+
+        for(int i = 0; i <events.size(); i++){
+            if (events.get(i).getId().equals(model.getId())){
+                events.remove(i);
+                break;
+            }
+        }
+        events.add(model);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))){
+            for(Event event: events){
+                writer.write( event.getId() + "#" + event.getName() + "#" + event.getStartDate()
+                        + "#" + event.getEndDate());
+                writer.newLine();
+            }
+
+        } catch (IOException e){
+            throw new IllegalArgumentException("Проблемы с записью в файл: " + e.getMessage());
+        }
 
     }
 

@@ -20,17 +20,17 @@ public class EventsController {
         this.eventsService = eventsService;
     }
 
-    @PostMapping("/addEvent")
+    @PostMapping("/signUp")
     public String addEvent(@RequestParam("eventName") String name,
                            @RequestParam("eventDesc") String desc) {
         eventsService.addEvent(name, desc);
-        return null;
+        return "redirect:/success_signUp.html";
     }
 
     @GetMapping("/events")
     public String getEventsPage (Model model){
         List<Event> events = eventsService.getAllEvents();
-        model.addAttribute("eventsList",events);
+       model.addAttribute("eventsList",events);
         return "events_page";
     }
 }

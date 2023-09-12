@@ -26,6 +26,8 @@ public class Main {
                         eventsController.addEvent();
                 case "/events" ->
                         eventsController.getAllEvents();
+                case "/events/update" ->
+                        eventsController.updateEvent();
                 case "/exit" ->
                         isRun = false;
             }

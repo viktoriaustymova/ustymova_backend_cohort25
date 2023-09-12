@@ -4,7 +4,6 @@ import java.util.Objects;
 
 public class Event {
     private String name;
-
     private String desc;
 
     public Event(String name, String desc) {

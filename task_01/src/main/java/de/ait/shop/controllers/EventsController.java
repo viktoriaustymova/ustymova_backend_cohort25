@@ -49,4 +49,35 @@ public class EventsController {
 
         System.out.println(events);
     }
+
+    public void updateEvent() {
+
+        System.out.println("Введите идентификатор события, данные которого нужно обновить: ");
+        Long idForUpdate = scanner.nextLong();
+        scanner.nextLine();
+
+        System.out.println("Введите название события для обновления: ");
+        String newName = scanner.nextLine();
+
+        /*System.out.println("Введите дату начала (гггг-мм-дд) для обновления: ");
+        String typedNewStartDate = scanner.nextLine();
+        if (!typedNewStartDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            System.out.println("Неверный формат даты: ");
+            throw new IllegalArgumentException("Неверный формат даты: " + typedNewStartDate);
+        }
+        LocalDate newStartDate = LocalDate.parse(typedNewStartDate);
+
+        System.out.println("Введите дату окончания (гггг-мм-дд) для обновления: ");
+        String typedNewEndDate = scanner.nextLine();
+        if (!typedNewEndDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            System.out.println("Неверный формат даты: ");
+            throw new IllegalArgumentException("Неверный формат даты: " + typedNewEndDate);
+        }
+        LocalDate newEndDate = LocalDate.parse(typedNewEndDate);
+
+         */
+
+
+        eventsService.updateEvent(idForUpdate,newName);
+    }
 }

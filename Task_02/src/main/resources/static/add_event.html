@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Добавить событие</title>
 </head>
 <body>
-$END$
+<form action="http://localhost:8080/signUp" method="post">
+    <label>Название события
+        <input type="text" name="eventName" placeholder="Введите название ...">
+    </label>
+    <label>Описание события
+        <input  type="text"  name="eventDesc" placeholder="Введите описание ...">
+    </label>
+    <input type="submit" value="Добавить">
+</form>
 </body>
 </html>

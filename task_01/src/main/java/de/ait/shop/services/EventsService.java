@@ -9,4 +9,7 @@ public interface EventsService {
     Event addEvent(String name, LocalDate startDate, LocalDate endDate);
 
     List<Event> getAllEvents();
+
+
+    void updateEvent(Long id, String newName);
 }

@@ -68,7 +68,7 @@ public class EventsRepositoryFileImpl implements EventsRepository {
                     .map(line -> line.split("#"))
                     .filter(parsed -> parsed[0].equals(name))
                     .findFirst()
-                    .map(parsed -> new Event(parsed[0],parsed[1]))
+                    .map(parsed -> new Event(null,null))
                     .orElse(null);
 
         } catch (IOException e){

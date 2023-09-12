@@ -40,4 +40,26 @@ public class EventsServiceImpl implements EventsService {
     public List<Event> getAllEvents() {
         return eventsRepository.findAll();
     }
+
+    @Override
+    public void updateEvent(Long id, String newName) {
+        List<Event> events = eventsRepository.findAll();
+        Event eventForUpdate = null;
+
+        for (Event event: events){
+            if(event.getId().equals(id)){
+                eventForUpdate = event;
+                break;
+            }
+        }
+
+        if(eventForUpdate == null){
+            throw new IllegalArgumentException("Событие c id " +id + " не найдено");
+        }
+
+        if(!newName.isBlank()){
+            eventForUpdate.setName(newName);
+        }
+        eventsRepository.update(eventForUpdate);
+    }
 }
