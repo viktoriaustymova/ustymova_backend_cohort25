@@ -1,0 +1,14 @@
+###Получение событий
+
+GET localhost:8080/events
+
+###Добавление событий
+
+POST localhost:8080/events
+Content-Type: application/json
+
+{
+  "eventName": "Event from IDEA",
+  "eventDesc": "Description of IDEA Event"
+}
+
