@@ -2,12 +2,15 @@ package de.ait.ec.services.impl;
 
 import de.ait.ec.dto.CourseDto;
 import de.ait.ec.dto.NewCourseDto;
+import de.ait.ec.exceptions.RestException;
 import de.ait.ec.models.Course;
 import de.ait.ec.repositories.CoursesRepository;
 import de.ait.ec.services.CoursesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.lang.module.ResolutionException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -37,5 +40,26 @@ public class CoursesServiceImpl implements CoursesService {
     public List<CourseDto> getCourses() {
         List<Course> courses = coursesRepository.findAll();
         return from(courses);
+    }
+
+    @Override
+    public CourseDto getCourse(Long courseId) {
+         /*
+        Optional<Course> courseOptional = coursesRepository.findById(courseId); // находим Optional в базе
+
+        Course course;
+
+        if (courseOptional.isPresent()) { // если в этом Optional данные есть (нашли курс)
+            course = courseOptional.get(); // получаем объект этого курса
+        } else {
+            // если там ничего на самом деле не лежит, то выбрасываем ошибку
+            throw new IllegalArgumentException("Course with id <" + courseId + "> not found");
+        }
+        */
+
+        // Optional
+       Course course = coursesRepository.findById(courseId)
+                .orElseThrow(()-> new RestException(HttpStatus.NOT_FOUND, "Course with id <" + courseId + "> not found"));
+        return from(course);
     }
 }

@@ -1,3 +1,4 @@
 birthday#birthday
 Wedding#wedding
 Altstadtfest#Altstadtfest
+birthday#birthday
