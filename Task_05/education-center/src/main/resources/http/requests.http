@@ -11,5 +11,19 @@ Content-Type: application/json
   "price": 100.0
 }
 
-### Получение курса
+### Получение курсов
 GET http://localhost:8080/api/courses
+
+### Получение одного курса
+
+GET http://localhost:8080/api/courses/5
+
+### Регистрация пользователя
+
+POST localhost:8080/api/users/register
+Content-Type: application/json
+
+{
+  "email": "sidikov.marsel@gmail.com",
+  "password": "Qwerty007!"
+}

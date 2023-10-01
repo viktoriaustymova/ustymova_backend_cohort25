@@ -9,3 +9,5 @@ values ('Описание события 3', '2022-02-05', '2022-03-10', 10, 'DR
 
 insert into course(description, begin_date, end_date, price, state, title)
 values ('Описание события 4', '2022-02-05', '2022-03-10', 0, 'PUBLISHED', 'Событие 4');
+
+insert into account(email, password, role) values ('sidikov.marsel@gmail.com', 'qwerty007', 'USER');
