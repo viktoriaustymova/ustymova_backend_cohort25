@@ -1,26 +1,37 @@
 package de.ait.ec.services.impl;
 
 import de.ait.ec.dto.CourseDto;
+import de.ait.ec.dto.LessonDto;
 import de.ait.ec.dto.NewCourseDto;
+import de.ait.ec.dto.NewLessonDto;
 import de.ait.ec.exceptions.RestException;
 import de.ait.ec.models.Course;
+import de.ait.ec.models.Lesson;
 import de.ait.ec.repositories.CoursesRepository;
+import de.ait.ec.repositories.LessonsRepository;
 import de.ait.ec.services.CoursesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 
 import static de.ait.ec.dto.CourseDto.from;
+import static de.ait.ec.dto.LessonDto.from;
 
 @RequiredArgsConstructor
 @Service
 public class CoursesServiceImpl implements CoursesService {
 
     private final CoursesRepository coursesRepository;
+
+    private final LessonsRepository lessonsRepository;
+
     @Override
     public CourseDto addCourse(NewCourseDto newCourse) {
         Course course = Course.builder()
@@ -61,5 +72,38 @@ public class CoursesServiceImpl implements CoursesService {
        Course course = coursesRepository.findById(courseId)
                 .orElseThrow(()-> new RestException(HttpStatus.NOT_FOUND, "Course with id <" + courseId + "> not found"));
         return from(course);
+    }
+
+    @Override
+    public LessonDto addLessonToCourse(Long courseId, NewLessonDto newLesson) {
+
+        Course course = coursesRepository.findById(courseId)
+                .orElseThrow(()-> new RestException(HttpStatus.NOT_FOUND, "Course with id <" + courseId + "> not found"));
+
+        // создаем урок, который нужно будет сохранить в базу данных
+        Lesson lesson = Lesson.builder()
+                .name(newLesson.getName())
+                .dayOfWeek(DayOfWeek.valueOf(newLesson.getDayOfWeek()))
+                .startTime(LocalTime.parse(newLesson.getStartTime()))
+                .finishTime(LocalTime.parse(newLesson.getFinishTime()))
+                .course(course) // проставляем, к какому курсу привязан урок
+                .build();
+
+        lessonsRepository.save(lesson); // сохраняем урок
+
+        return from(lesson); // возвращаем пользователю ответ
+
+    }
+
+    @Override
+    public List<LessonDto> getLessonsOfCourse(Long courseId) {
+        // найдем курс, у которого хотим забрать уроки
+        Course course = coursesRepository.findById(courseId) // либо находим курс по id
+                .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND, "Course with id <" + courseId + "> not found"));
+
+        // получим все уроки этого курса:
+        Set<Lesson> lessons = course.getLessons();
+        // сконвертировали в DTO
+        return from(lessons);
     }
 }

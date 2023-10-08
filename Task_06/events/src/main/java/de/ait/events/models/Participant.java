@@ -1,4 +1,4 @@
-package de.ait.ec.models;
+package de.ait.events.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,14 +14,14 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "account")
-public class User {
+public class Participant {
 
-    public enum Role{
-        ADMIN, MANAGER, USER
+    public enum Role {
+        ADMIN, MANAGER, PARTICIPANT
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(length = 20)
     private String firstName;
@@ -41,12 +41,13 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "student_course",
+            name = "participant_event",
             joinColumns =
-            @JoinColumn(name = "student_id", nullable = false, referencedColumnName = "id"),
+            @JoinColumn(name = "participant_id", nullable = false, referencedColumnName = "id"),
             inverseJoinColumns =
-            @JoinColumn(name = "course_id", nullable = false, referencedColumnName = "id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"student_id", "course_id"})
+            @JoinColumn(name = "event_id", nullable = false, referencedColumnName = "id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"participant_id", "event_id"})
+
     )
-    private Set<Course> courses;
+    private Set<Event> events;
 }

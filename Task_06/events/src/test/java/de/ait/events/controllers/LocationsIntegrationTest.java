@@ -1,5 +1,4 @@
-package de.ait.ec.controllers;
-
+package de.ait.events.controllers;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,97 +13,93 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DisplayName("Endpoint /courses works:")
+@DisplayName("Endpoint /locations works:")
 @DisplayNameGeneration(value = DisplayNameGenerator.ReplaceUnderscores.class)
 @ActiveProfiles("test")
-class CoursesIntegrationTest {
+public class LocationsIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Nested
-    @DisplayName("GET /courses:")
-    public class GetCourses {
+    @DisplayName("GET/ locations:")
+    public class GetLocations{
         @Test
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-        public void return_empty_list_of_courses() throws Exception {
-            mockMvc.perform(get("/api/courses"))
+        public void return_empty_list_of_locations() throws Exception{
+            mockMvc.perform(get("/api/locations"))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.size()", is(0)));
+                    .andExpect(jsonPath("$.size()",is(0)));
         }
 
         @Test
         @Sql(scripts = "/sql/data.sql")
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-        public void return_list_of_courses_for_not_empty_database() throws Exception {
-            mockMvc.perform(get("/api/courses"))
+        public void return_list_of_locations_for_not_empty_database() throws Exception{
+            mockMvc.perform(get("/api/locations"))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.size()", is(4)))
+                    .andExpect(jsonPath("$.size()",is(2)))
                     .andExpect(jsonPath("$.[0].id", is(1)))
                     .andExpect(jsonPath("$.[1].id", is(2)))
-                    .andExpect(jsonPath("$.[2].id", is(3)))
-                    .andExpect(jsonPath("$.[3].id", is(4)))
-                    .andExpect(jsonPath("$.[2].price", is(10.0)));
+                    .andExpect(jsonPath("$.[1].city", is("Stuttgart")));;
         }
     }
 
     @Nested
-    @DisplayName("POST /courses:")
-    public class PostCourse {
+    @DisplayName("POST /locations:")
+    public class PostLocation{
         @Test
         @Sql(scripts = {"/sql/data.sql"})
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-        public void return_created_course() throws Exception {
-            mockMvc.perform(post("/api/courses")
+        public void return_created_location() throws Exception {
+            mockMvc.perform(post("/api/locations")
                     .contentType("application/json")
                     .content("{\n" +
-                            "  \"title\": \"Новый курс\",\n" +
-                            "  \"beginDate\": \"2022-02-02\",\n" +
-                            "  \"endDate\": \"2023-02-02\",\n" +
-                            "  \"description\": \"Описание нового курса\",\n" +
-                            "  \"price\": 100.0\n" +
+                            "  \"name\": \"Mercedes-Benz Conference Center\",\n" +
+                            "  \"country\": \"Germany\",\n" +
+                            "  \"city\": \"Stuttgart\",\n" +
+                            "  \"address\": \"Mercedesstrasse 132\"\n" +
                             "}"))
-                    .andExpect(jsonPath("$.id", is(5)))
+                    .andExpect(jsonPath("$.id", is(3)))
                     .andExpect(status().isCreated());
 
         }
         @Test
-        public void return_400_for_not_valid_course() throws Exception {
-            mockMvc.perform(post("/api/courses")
+        public void return_400_for_not_valid_location() throws Exception {
+            mockMvc.perform(post("/api/locations")
                             .contentType("application/json")
                             .content("{\n" +
-                                    "  \"title\": \"Новый курс\",\n" +
-                                    "  \"beginDate\": \"2022-02-02\",\n" +
-                                    "  \"endDate\": \"2023-5000-02\",\n" +
-                                    "  \"description\": \"Описание нового курса\",\n" +
-                                    "  \"price\": 10000.0\n" +
+                                    "  \"name\": \"M\",\n" +
+                                    "  \"country\": \"Germany\",\n" +
+                                    "  \"city\": \"Stuttgart\",\n" +
+                                    "  \"address\": \"Mercedesstrasse 132\"\n" +
                                     "}"))
                     .andExpect(status().isBadRequest())
-                    .andExpect(jsonPath("$.errors.size()", is(2)));
+                    .andExpect(jsonPath("$.errors.size()", is(1)));
         }
     }
+
     @Nested
-    @DisplayName("GET /courses/{course-id}:")
-    public class GetCourse {
+    @DisplayName("GET/locations/{location-id}:")
+    public class GetLocation {
         @Test
         @Sql(scripts = "/sql/data.sql")
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-        public void return_existed_course() throws Exception {
-            mockMvc.perform(get("/api/courses/1"))
+        public void return_existed_location() throws Exception{
+            mockMvc.perform(get("/api/locations/1"))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.id", is(1)))
-                    .andExpect(jsonPath("$.title", is("Событие 1")))
-                    .andExpect(jsonPath("$.price", is(100.0)));
+                    .andExpect(jsonPath("$.id",is(1)))
+                    .andExpect(jsonPath("$.name",is("Messe Dresden")))
+                    .andExpect(jsonPath("$.city",is("Dresden")));
         }
 
         @Test
         @Sql(scripts = "/sql/data.sql")
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-        public void return_404_for_not_existed_course() throws Exception {
-            mockMvc.perform(get("/api/courses/5"))
+        public void return_404_for_not_existed_location() throws Exception{
+            mockMvc.perform(get("/api/locations/3"))
                     .andExpect(status().isNotFound());
         }
     }

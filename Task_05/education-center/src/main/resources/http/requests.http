@@ -27,3 +27,31 @@ Content-Type: application/json
   "email": "sidikov.marsel@gmail.com",
   "password": "Qwerty007!"
 }
+
+### Добавление урока в курс
+
+POST localhost:8080/api/courses/1/lessons
+Content-Type: application/json
+
+{
+  "name": "Java - Введение",
+  "startTime": "09:30",
+  "finishTime": "13:00",
+  "dayOfWeek": "MONDAY"
+}
+
+### Добавление урока в курс
+
+POST localhost:8080/api/courses/1/lessons
+Content-Type: application/json
+
+{
+  "name": "Java - Продвинутая",
+  "startTime": "17:00",
+  "finishTime": "21:00",
+  "dayOfWeek": "WEDNESDAY"
+}
+
+### Получение всех уроков курса
+
+GET localhost:8080/api/courses/1/lessons

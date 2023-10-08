@@ -1,14 +1,10 @@
-package de.ait.ec.models;
+package de.ait.events.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Check;
-
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Set;
 
 @Data
@@ -16,9 +12,9 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Course {
-
-    public enum State {
+@EqualsAndHashCode(exclude = "location")
+public class Event {
+    public enum State{
         DRAFT, PUBLISHED
     }
 
@@ -36,17 +32,17 @@ public class Course {
 
     private LocalDate endDate;
 
-    @Column(nullable = false)
-    private Double price;
+    private LocalTime startTime;
+
+    private LocalTime finishTime;
 
     @Enumerated(value = EnumType.STRING)
     private State state;
 
-    @ManyToMany(mappedBy = "courses")
-    private Set<User> students;
+    @ManyToOne
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
 
-    @OneToMany(mappedBy = "course")
-    private Set<Lesson> lessons;
-
-
+    @ManyToMany(mappedBy = "events")
+    private Set<Participant> participants;
 }

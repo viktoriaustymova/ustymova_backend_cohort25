@@ -1,8 +1,6 @@
 package de.ait.ec.controllers;
 
-import de.ait.ec.dto.CourseDto;
-import de.ait.ec.dto.NewCourseDto;
-import de.ait.ec.dto.StandardResponseDto;
+import de.ait.ec.dto.*;
 import de.ait.ec.services.CoursesService;
 import de.ait.ec.validation.dto.ValidationErrorsDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +41,6 @@ public class CoursesController {
                             schema = @Schema(implementation = ValidationErrorsDto.class)))
     })
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<CourseDto> addCourse(@RequestBody @Valid NewCourseDto newCourse) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -76,6 +73,22 @@ public class CoursesController {
                 .ok(coursesService.getCourse(courseId));
     }
 
+    @PostMapping("/{course-id}/lessons")
+    public ResponseEntity<LessonDto> addLessonToCourse(@PathVariable("course-id") Long courseId,
+                                                       @RequestBody NewLessonDto newLesson) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(coursesService.addLessonToCourse(courseId, newLesson));
+    }
 
+    @GetMapping("/{course-id}/lessons")
+    public ResponseEntity<List<LessonDto>> getLessonsOfCourse(@PathVariable("course-id") Long courseId) {
+        return ResponseEntity
+                .ok(coursesService.getLessonsOfCourse(courseId));
+    }
 
 }
+
+
+
+

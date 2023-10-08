@@ -1,0 +1,45 @@
+### Add location
+
+POST http://localhost:8080/api/locations
+Content-Type: application/json
+
+{
+  "name": "Messe Dresden",
+  "country": "Germany",
+  "city": "Dresden",
+  "address": "Messering 6"
+}
+
+### Get locations
+GET http://localhost:8080/api/locations
+
+### Get location
+GET http://localhost:8080/api/locations/2
+
+### Patricipant registration
+POST http://localhost:8080/api/participants/register
+Content-Type: application/json
+
+{
+  "firstName": "Participant1",
+  "lastName": "Participant",
+  "email": "participant@mail.com",
+  "password": "Qwerty007!"
+}
+
+### Add event to location
+POST http://localhost:8080/api/locations/1/events
+Content-Type: application/json
+
+{
+  "title": "Marketing Conference",
+  "description": "International conference on Marketing",
+  "beginDate": "2024-03-02",
+  "endDate": "2024-03-02",
+  "startTime": "16:00",
+  "finishTime": "20:00"
+}
+
+### Get all events of locations
+
+GET localhost:8080/api/locations/1/events

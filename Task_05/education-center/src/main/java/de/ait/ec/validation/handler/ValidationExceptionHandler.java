@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 @ControllerAdvice
 public class ValidationExceptionHandler {
     // перехватывает ошибки валидации и возвращает клиенту читаемый JSON со всеми ошибками
@@ -22,7 +20,6 @@ public class ValidationExceptionHandler {
     public ResponseEntity<ValidationErrorsDto> handleValidationException(MethodArgumentNotValidException e) {
 
         List<ValidationErrorDto> validationErrors = new ArrayList<>(); // готовим список ошибок валидации
-
         List<ObjectError> errors = e.getBindingResult().getAllErrors(); // получение всех возникших ошибок
 
         for (ObjectError error : errors) { // пробегаем по всем ошибкам
