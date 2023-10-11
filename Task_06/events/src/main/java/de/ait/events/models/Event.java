@@ -25,7 +25,7 @@ public class Event {
     @Column(nullable = false, length = 20)
     private String title;
 
-    @Column(nullable = false, length = 1000)
+    @Column(length = 1000)
     private String description;
 
     private LocalDate beginDate;
@@ -40,7 +40,8 @@ public class Event {
     private State state;
 
     @ManyToOne
-    @JoinColumn(name = "location_id", nullable = false)
+    @JoinColumn(name = "location_id")
+    @ToString.Exclude
     private Location location;
 
     @ManyToMany(mappedBy = "events")

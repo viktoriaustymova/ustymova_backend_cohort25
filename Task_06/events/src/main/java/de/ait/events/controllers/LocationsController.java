@@ -72,7 +72,7 @@ public class LocationsController{
         return ResponseEntity.ok(locationsService.getLocation(locationId));
     }
 
-    @Operation(summary = "Create event", description = "Manager access")
+    @Operation(summary = "Add event to location", description = "Manager access")
     @ApiResponses({
             @ApiResponse(responseCode = "201",
                     description = "Event was successfully added ",
@@ -97,6 +97,23 @@ public class LocationsController{
     public ResponseEntity<List<EventDto>> getEventsOfLocation(@PathVariable ("location-id") Long locationId){
         return ResponseEntity
                 .ok(locationsService.getEventsOfLocation(locationId));
+    }
+
+    @Operation(summary = "Delete event from location", description = "Manager access")
+    @DeleteMapping("/{location-id}/events/{event-id}")
+    public ResponseEntity<EventDto> deleteEventFromLocation(@PathVariable ("location-id") Long locationId,
+                                                            @PathVariable ("event-id") Long eventId){
+        return ResponseEntity.
+                ok(locationsService.deleteEventFromLocation(locationId,eventId));
+    }
+
+    @Operation(summary = "Update event in location", description = "Manager access")
+    @PutMapping("/{location-id}/events/{event-id}")
+    public ResponseEntity<EventDto> updateEventInLocation(@PathVariable ("location-id") Long locationId,
+                                                            @PathVariable ("event-id") Long eventId,
+                                                          @RequestBody @Valid UpdateEventDto updateEvent){
+        return ResponseEntity.
+                ok(locationsService.updateEventInLocation(locationId,eventId,updateEvent));
     }
 
 }

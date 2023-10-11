@@ -17,6 +17,7 @@ public class Lesson{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     private LocalTime startTime;
@@ -27,6 +28,7 @@ public class Lesson{
     private DayOfWeek dayOfWeek;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
+    @JoinColumn(name = "course_id")
+    @ToString.Exclude
     private Course course;
 }

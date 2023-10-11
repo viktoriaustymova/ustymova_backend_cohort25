@@ -47,11 +47,11 @@ public class ParticipantsController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ValidationErrorsDto.class)))
     })
-
     @PostMapping("/register")
     public ResponseEntity<ParticipantDto> register(@RequestBody @Valid NewParticipantDto newParticipant){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(participantsService.register(newParticipant));
     }
+
 }

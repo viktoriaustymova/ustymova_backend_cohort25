@@ -1,9 +1,6 @@
 package de.ait.ec.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,6 +11,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "account")
+@EqualsAndHashCode(exclude = "courses")
 public class User {
 
     public enum Role{

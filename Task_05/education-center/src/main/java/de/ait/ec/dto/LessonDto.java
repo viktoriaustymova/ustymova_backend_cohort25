@@ -23,14 +23,17 @@ public class LessonDto {
     private Long courseId;
 
     public static LessonDto from(Lesson lesson) {
-        return LessonDto.builder()
+        LessonDto result = LessonDto.builder()
                 .id(lesson.getId())
                 .name(lesson.getName())
                 .startTime(lesson.getStartTime().toString())
                 .finishTime(lesson.getFinishTime().toString())
                 .dayOfWeek(lesson.getDayOfWeek().toString())
-                .courseId(lesson.getCourse().getId())
                 .build();
+        if (lesson.getCourse() != null){
+            result.setCourseId(lesson.getCourse().getId());
+        }
+        return result;
     }
 
     public static List<LessonDto> from(Set<Lesson> lessons) {

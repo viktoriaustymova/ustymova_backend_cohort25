@@ -52,6 +52,45 @@ Content-Type: application/json
   "dayOfWeek": "WEDNESDAY"
 }
 
+### Добавление существующего урока в курс
+
+POST localhost:8080/api/courses/1/lessons
+Content-Type: application/json
+
+{
+  "existsLessonId": 10
+}
+
 ### Получение всех уроков курса
 
 GET localhost:8080/api/courses/1/lessons
+
+### Удаление урока из курса
+
+DELETE localhost:8080/api/courses/1/lessons/10
+
+### Обновление урока в курсе
+
+PUT localhost:8080/api/courses/1/lessons/3
+Content-Type: application/json
+
+{
+  "name": "   ",
+  "startTime": "17:00",
+  "finishTime": "21:00",
+  "dayOfWeek": "MONDAY"
+}
+
+### Добавление студента в курс
+
+PUT localhost:8080/api/courses/1/students
+Content-Type: application/json
+
+{
+  "userId": 3
+}
+
+### Получение всех студентов курса
+
+GET localhost:8080/api/courses/1/students
+

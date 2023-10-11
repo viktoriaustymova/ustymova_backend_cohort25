@@ -7,6 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,7 +30,7 @@ public class ParticipantDto {
     @Schema(description = "participant email", example = "alex@mail.com")
     private String email;
 
-    @Schema(description = "participant role", example = "USER")
+    @Schema(description = "participant role", example = "PARTICIPANT")
     private String role;
 
     public static ParticipantDto from (Participant participant){
@@ -37,5 +41,11 @@ public class ParticipantDto {
                 .email(participant.getEmail())
                 .role(participant.getRole().toString())
                 .build();
+    }
+
+    public static List<ParticipantDto> from(Set<Participant> participants){
+       return  participants.stream()
+               .map(ParticipantDto::from)
+               .collect(Collectors.toList());
     }
 }

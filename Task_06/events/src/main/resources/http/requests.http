@@ -21,9 +21,9 @@ POST http://localhost:8080/api/participants/register
 Content-Type: application/json
 
 {
-  "firstName": "Participant1",
-  "lastName": "Participant",
-  "email": "participant@mail.com",
+  "firstName": "Alex",
+  "lastName": "Meyer",
+  "email": "alex@mail.com",
   "password": "Qwerty007!"
 }
 
@@ -33,13 +33,52 @@ Content-Type: application/json
 
 {
   "title": "Marketing Conference",
-  "description": "International conference on Marketing",
+  "description": "International marketing conference",
   "beginDate": "2024-03-02",
   "endDate": "2024-03-02",
   "startTime": "16:00",
   "finishTime": "20:00"
 }
 
+### Add existed event to location
+POST http://localhost:8080/api/locations/2/events
+Content-Type: application/json
+
+{
+  "existsEventId": 18
+}
+
 ### Get all events of locations
 
 GET localhost:8080/api/locations/1/events
+
+### Delete event from location
+
+DELETE localhost:8080/api/locations/1/events/18
+
+
+### Update event in location
+PUT localhost:8080/api/locations/2/events/18
+Content-Type: application/json
+
+{
+  "title": "Business Conference",
+  "description": "International conference",
+  "beginDate": "2024-07-07",
+  "endDate": "2024-07-07",
+  "startTime": "16:00",
+  "finishTime": "19:00"
+}
+
+### Add participant to event
+
+POST localhost:8080/api/events/17/participants
+Content-Type: application/json
+
+{
+  "participantId": 5
+}
+
+### Get participants of event
+
+GET localhost:8080/api/events/16/participants

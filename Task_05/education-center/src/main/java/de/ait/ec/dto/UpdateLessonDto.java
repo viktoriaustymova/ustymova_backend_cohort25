@@ -8,15 +8,17 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class NewLessonDto {
-    @Schema(description = "Идентификатор существующего урока")
-    private Long existsLessonId;
+@Schema(description = "Поля для обновления, null - сохраняются в базе")
+public class UpdateLessonDto {
 
+    @NotBlank
+    @NotEmpty
     private String name;
 
     @NotBlank
     @NotEmpty
     private String startTime;
+
 
     @NotBlank
     @NotEmpty

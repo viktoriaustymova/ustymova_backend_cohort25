@@ -42,8 +42,11 @@ public class EventDto {
     @Schema(description = "event status - DRAFT, PUBLISHED", example = "PUBLISHED")
     private String state;
 
+    @Schema(description = "location ID", example = "1")
+    private Long locationId;
+
     public static EventDto from(Event event){
-        return EventDto.builder()
+        EventDto result = EventDto.builder()
                 .id(event.getId())
                 .title(event.getTitle())
                 .description(event.getDescription())
@@ -53,6 +56,10 @@ public class EventDto {
                 .finishTime(event.getFinishTime().toString())
                 .state(event.getState().toString())
                 .build();
+        if (event.getLocation() != null){
+            result.setLocationId(event.getLocation().getId());
+        }
+        return result;
     }
 
     public static List<EventDto> from(Set<Event> events){

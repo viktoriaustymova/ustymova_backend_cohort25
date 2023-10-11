@@ -1,9 +1,6 @@
 package de.ait.events.services;
 
-import de.ait.events.dto.EventDto;
-import de.ait.events.dto.LocationDto;
-import de.ait.events.dto.NewEventDto;
-import de.ait.events.dto.NewLocationDto;
+import de.ait.events.dto.*;
 
 import java.util.List;
 
@@ -17,5 +14,11 @@ public interface LocationsService {
     EventDto addEventToLocation(Long locationId, NewEventDto newEvent);
 
     List<EventDto> getEventsOfLocation(Long locationId);
+
+    EventDto deleteEventFromLocation(Long locationId, Long eventId);
+
+    EventDto updateEventInLocation(Long locationId, Long eventId, UpdateEventDto updateEvent);
+
+
 }
 

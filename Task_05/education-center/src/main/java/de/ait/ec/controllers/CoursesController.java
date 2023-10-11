@@ -87,6 +87,33 @@ public class CoursesController {
                 .ok(coursesService.getLessonsOfCourse(courseId));
     }
 
+    @DeleteMapping("/{course-id}/lessons/{lesson-id}")
+    public ResponseEntity<LessonDto> deleteLessonFromCourse( @PathVariable("course-id") Long courseId,
+                                                             @PathVariable("lesson-id") Long lessonId){
+        return ResponseEntity
+                .ok(coursesService.deleteLessonFromCourse(courseId,lessonId));
+    }
+
+    @PutMapping("/{course-id}/lessons/{lesson-id}")
+    public ResponseEntity<LessonDto> updateLessonInCourse( @PathVariable("course-id") Long courseId,
+                                                             @PathVariable("lesson-id") Long lessonId,
+                                                           @RequestBody @Valid UpdateLessonDto updateLesson ){
+        return ResponseEntity
+                .ok(coursesService.updateLessonInCourse(courseId,lessonId, updateLesson));
+    }
+
+    @PostMapping("/{course-id}/students")
+    public ResponseEntity<List<UserDto>> addStudentToCourse(@PathVariable("course-id") Long courseId,
+                                                            @RequestBody StudentToCourseDto studentData) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(coursesService.addStudentToCourse(courseId,studentData));
+    }
+
+    @GetMapping("/{course-id}/students")
+    public ResponseEntity<List<UserDto>> getStudentsOfCourse(@PathVariable("course-id") Long courseId){
+        return ResponseEntity.ok(coursesService.getStudentsOfCourse(courseId));
+    }
+
 }
 
 

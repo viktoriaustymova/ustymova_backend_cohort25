@@ -1,9 +1,6 @@
 package de.ait.ec.services;
 
-import de.ait.ec.dto.CourseDto;
-import de.ait.ec.dto.LessonDto;
-import de.ait.ec.dto.NewCourseDto;
-import de.ait.ec.dto.NewLessonDto;
+import de.ait.ec.dto.*;
 
 import java.util.List;
 
@@ -18,4 +15,11 @@ public interface CoursesService {
 
     List<LessonDto> getLessonsOfCourse(Long courseId);
 
+    LessonDto deleteLessonFromCourse(Long courseId, Long lessonId);
+
+    LessonDto updateLessonInCourse(Long courseId, Long lessonId, UpdateLessonDto updateLesson);
+
+    List<UserDto> addStudentToCourse(Long courseId, StudentToCourseDto studentData);
+
+    List<UserDto> getStudentsOfCourse(Long courseId);
 }
