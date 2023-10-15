@@ -20,7 +20,8 @@ public class ParticipantsServiceImpl implements ParticipantsService {
 
     private final ParticipantsRepository participantsRepository;
 
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public ParticipantDto register(NewParticipantDto newParticipant) {
 
