@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,7 +44,7 @@ public class ParticipantDto {
                 .build();
     }
 
-    public static List<ParticipantDto> from(Set<Participant> participants){
+    public static List<ParticipantDto> from(Collection<Participant> participants){
        return  participants.stream()
                .map(ParticipantDto::from)
                .collect(Collectors.toList());

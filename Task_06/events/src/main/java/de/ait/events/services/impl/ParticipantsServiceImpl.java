@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static de.ait.events.dto.ParticipantDto.from;
 
 @RequiredArgsConstructor
@@ -40,5 +42,15 @@ public class ParticipantsServiceImpl implements ParticipantsService {
         participantsRepository.save(participant);
 
         return from(participant);
+    }
+
+    @Override
+    public ParticipantDto getParticipantById(Long currentParticipantId) {
+        return from(participantsRepository.findById(currentParticipantId).orElseThrow());
+    }
+
+    @Override
+    public List<ParticipantDto> getAllParticipants() {
+        return from(participantsRepository.findAll());
     }
 }

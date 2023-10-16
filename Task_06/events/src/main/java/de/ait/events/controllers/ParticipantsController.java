@@ -2,9 +2,12 @@ package de.ait.events.controllers;
 
 import de.ait.events.dto.ParticipantDto;
 import de.ait.events.dto.NewParticipantDto;
+
+import de.ait.events.security.details.AuthenticatedUser;
 import de.ait.events.services.ParticipantsService;
 import de.ait.events.validation.dto.ValidationErrorsDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,13 +17,13 @@ import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.Column;
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Tags(
@@ -52,6 +55,22 @@ public class ParticipantsController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(participantsService.register(newParticipant));
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<ParticipantDto> getProfile(@Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser participant) {
+        Long currentParticipantId = participant.getId();
+        return ResponseEntity
+                .ok(participantsService.getParticipantById(currentParticipantId));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping
+    @Operation(summary = "Get all participants", description = "Admin access")
+    public ResponseEntity<List<ParticipantDto>> getAllParticipants(){
+        return ResponseEntity
+                .ok(participantsService.getAllParticipants());
+
     }
 
 }
