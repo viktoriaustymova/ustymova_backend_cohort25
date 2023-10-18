@@ -1,8 +1,10 @@
 package de.ait.events.controllers;
+import de.ait.events.security.config.TestSecurityConfig;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -14,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@SpringBootTest
+@SpringBootTest(classes = TestSecurityConfig.class)
 @AutoConfigureMockMvc
 @DisplayName("Endpoint /locations works:")
 @DisplayNameGeneration(value = DisplayNameGenerator.ReplaceUnderscores.class)
@@ -26,6 +28,8 @@ public class LocationsIntegrationTest {
     @Nested
     @DisplayName("GET/ locations:")
     public class GetLocations{
+
+        @WithUserDetails(value = "user")
         @Test
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
         public void return_empty_list_of_locations() throws Exception{
@@ -34,6 +38,8 @@ public class LocationsIntegrationTest {
                     .andExpect(jsonPath("$.size()",is(0)));
         }
 
+
+        @WithUserDetails(value = "user")
         @Test
         @Sql(scripts = "/sql/data.sql")
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
@@ -50,6 +56,8 @@ public class LocationsIntegrationTest {
     @Nested
     @DisplayName("POST /locations:")
     public class PostLocation{
+
+        @WithUserDetails(value = "user")
         @Test
         @Sql(scripts = {"/sql/data.sql"})
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
@@ -66,6 +74,9 @@ public class LocationsIntegrationTest {
                     .andExpect(status().isCreated());
 
         }
+
+
+        @WithUserDetails(value = "user")
         @Test
         public void return_400_for_not_valid_location() throws Exception {
             mockMvc.perform(post("/api/locations")
@@ -84,6 +95,8 @@ public class LocationsIntegrationTest {
     @Nested
     @DisplayName("GET/locations/{location-id}:")
     public class GetLocation {
+
+        @WithUserDetails(value = "user")
         @Test
         @Sql(scripts = "/sql/data.sql")
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
@@ -95,6 +108,8 @@ public class LocationsIntegrationTest {
                     .andExpect(jsonPath("$.city",is("Dresden")));
         }
 
+
+        @WithUserDetails(value = "user")
         @Test
         @Sql(scripts = "/sql/data.sql")
         @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)

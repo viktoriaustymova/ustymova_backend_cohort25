@@ -1,5 +1,6 @@
 package de.ait.events.controllers;
 
+import de.ait.events.controllers.api.ParticipantsApi;
 import de.ait.events.dto.ParticipantDto;
 import de.ait.events.dto.NewParticipantDto;
 
@@ -26,50 +27,26 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Tags(
-        @Tag(name = "Participants")
-)
 @RestController
-@RequestMapping("/api/participants")
-public class ParticipantsController {
+
+public class ParticipantsController implements ParticipantsApi {
 
     private final ParticipantsService participantsService;
 
-    @Operation(summary = "Participant registration", description = "Access for all users. Default role - USER")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201",
-            description = "Participant was successfully registered",
-            content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = ParticipantDto.class))),
-            @ApiResponse(responseCode = "400",
-                    description = "Validation error",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ValidationErrorsDto.class))),
-            @ApiResponse(responseCode = "409",
-                    description = "Participant with this email already exists",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ValidationErrorsDto.class)))
-    })
-    @PostMapping("/register")
-    public ResponseEntity<ParticipantDto> register(@RequestBody @Valid NewParticipantDto newParticipant){
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(participantsService.register(newParticipant));
+    @Override
+    public ParticipantDto register(NewParticipantDto newParticipant){
+        return participantsService.register(newParticipant);
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<ParticipantDto> getProfile(@Parameter(hidden = true) @AuthenticationPrincipal AuthenticatedUser participant) {
+    @Override
+    public ParticipantDto getProfile(AuthenticatedUser participant) {
         Long currentParticipantId = participant.getId();
-        return ResponseEntity
-                .ok(participantsService.getParticipantById(currentParticipantId));
+        return participantsService.getParticipantById(currentParticipantId);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping
-    @Operation(summary = "Get all participants", description = "Admin access")
-    public ResponseEntity<List<ParticipantDto>> getAllParticipants(){
-        return ResponseEntity
-                .ok(participantsService.getAllParticipants());
+    @Override
+    public List<ParticipantDto> getAllParticipants(){
+        return participantsService.getAllParticipants();
 
     }
 

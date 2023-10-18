@@ -1,5 +1,6 @@
 package de.ait.events.controllers;
 
+import de.ait.events.controllers.api.LocationsApi;
 import de.ait.events.dto.*;
 import de.ait.events.services.LocationsService;
 import de.ait.events.validation.dto.ValidationErrorsDto;
@@ -21,99 +22,43 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/locations")
-@Tags(value = {
-        @Tag(name = "Locations")
-})
-public class LocationsController{
+public class LocationsController implements LocationsApi {
 
     private final LocationsService locationsService;
 
-    @Operation(summary = "Create location", description = "Manager access")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201",
-                    description = "Location was successfully created ",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = LocationDto.class))),
-            @ApiResponse(responseCode = "400",
-                    description = "Validation error",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ValidationErrorsDto.class)))
-
-    })
-    @PostMapping
-    public ResponseEntity<LocationDto> addLocation(@RequestBody @Valid NewLocationDto newLocation){
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(locationsService.addLocation(newLocation));
+    @Override
+    public LocationDto addLocation(NewLocationDto newLocation){
+        return locationsService.addLocation(newLocation);
     }
 
-    @Operation(summary = "Get locations list", description = "All users access")
-    @GetMapping
-    public ResponseEntity<List<LocationDto>> getLocations(){
-        return ResponseEntity
-                .ok(locationsService.getLocations());
+    @Override
+    public List<LocationDto> getLocations(){
+        return locationsService.getLocations();
     }
 
-    @Operation(summary = "Get location", description = "All users access")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200",
-                    description = "Request successfully processed",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = LocationDto.class))),
-            @ApiResponse(responseCode = "404",
-                    description = "Location not found ",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = StandardResponseDto.class)))
-    })
-    @GetMapping("/{location-id}")
-    public ResponseEntity<LocationDto> getLocation(@Parameter(description = "location ID", example = "1")
-                                             @PathVariable("location-id") Long locationId){
-        return ResponseEntity.ok(locationsService.getLocation(locationId));
+    @Override
+    public LocationDto getLocation(Long locationId){
+        return locationsService.getLocation(locationId);
     }
 
-    @Operation(summary = "Add event to location", description = "Manager access")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201",
-                    description = "Event was successfully added ",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = LocationDto.class))),
-            @ApiResponse(responseCode = "400",
-                    description = "Validation error",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ValidationErrorsDto.class)))
-
-    })
-    @PostMapping("/{location-id}/events")
-    public ResponseEntity<EventDto> addEventToLocation(@PathVariable("location-id") Long locationId,
-                                                       @RequestBody @Valid  NewEventDto newEvent) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(locationsService.addEventToLocation(locationId, newEvent));
+    @Override
+    public EventDto addEventToLocation(Long locationId, NewEventDto newEvent) {
+        return locationsService.addEventToLocation(locationId, newEvent);
     }
 
-    @Operation(summary = "Get events of location", description = "All users access")
-    @GetMapping("/{location-id}/events")
-    public ResponseEntity<List<EventDto>> getEventsOfLocation(@PathVariable ("location-id") Long locationId){
-        return ResponseEntity
-                .ok(locationsService.getEventsOfLocation(locationId));
+    @Override
+    public List<EventDto> getEventsOfLocation(Long locationId){
+        return locationsService.getEventsOfLocation(locationId);
     }
 
-    @Operation(summary = "Delete event from location", description = "Manager access")
-    @DeleteMapping("/{location-id}/events/{event-id}")
-    public ResponseEntity<EventDto> deleteEventFromLocation(@PathVariable ("location-id") Long locationId,
-                                                            @PathVariable ("event-id") Long eventId){
-        return ResponseEntity.
-                ok(locationsService.deleteEventFromLocation(locationId,eventId));
+    @Override
+    public EventDto deleteEventFromLocation(Long locationId, Long eventId){
+        return locationsService.deleteEventFromLocation(locationId,eventId);
     }
 
-    @Operation(summary = "Update event in location", description = "Manager access")
-    @PutMapping("/{location-id}/events/{event-id}")
-    public ResponseEntity<EventDto> updateEventInLocation(@PathVariable ("location-id") Long locationId,
-                                                            @PathVariable ("event-id") Long eventId,
-                                                          @RequestBody @Valid UpdateEventDto updateEvent){
-        return ResponseEntity.
-                ok(locationsService.updateEventInLocation(locationId,eventId,updateEvent));
+    @Override
+    public EventDto updateEventInLocation(Long locationId, Long eventId, UpdateEventDto updateEvent){
+        return locationsService.updateEventInLocation(locationId,eventId,updateEvent);
     }
 
 }
