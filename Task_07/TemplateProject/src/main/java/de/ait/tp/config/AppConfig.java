@@ -1,6 +1,12 @@
 package de.ait.tp.config;
 
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import de.ait.tp.documentation.OpenApiDocumentation;
 import de.ait.tp.dto.StandardResponseDto;
 import io.swagger.v3.core.converter.AnnotatedType;
@@ -25,6 +31,7 @@ import java.util.Arrays;
 
 @org.springframework.context.annotation.Configuration
 public class AppConfig {
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

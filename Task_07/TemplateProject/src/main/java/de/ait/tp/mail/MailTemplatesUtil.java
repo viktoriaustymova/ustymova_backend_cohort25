@@ -13,12 +13,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MailTemplatesUtil {
 
-    private final Configuration freeMarkerConfiguration;
+    private final Configuration freemarkerConfiguration;
 
     public String createConfirmationMail(String firstName, String lastName, String link) {
 
         try {
-            Template template = freeMarkerConfiguration.getTemplate("confirm_registration_mail.ftlh");
+            Template template = freemarkerConfiguration.getTemplate("confirm_registration_mail.ftlh");
 
             Map<String,Object> model = new HashMap<>();
             model.put("firstName", firstName);

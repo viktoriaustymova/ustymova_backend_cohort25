@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users/register/**").permitAll()
                 .antMatchers("/api/users/confirm/**").permitAll()
+                .antMatchers("/api/files/**").permitAll()
                 .antMatchers("/api/**").authenticated();
 
         httpSecurity
